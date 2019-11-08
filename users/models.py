@@ -40,3 +40,6 @@ class User(AbstractUser):
     birthdate = models.DateField(blank=True, null=True)
     language = models.CharField(choices=LANGUAGE_CHOICES, max_length=6, blank=True)
     currency = models.CharField(choices=CURRENCY_CHOICES, max_length=3, blank=True)
+
+    def __str__(self):
+        return self.username
