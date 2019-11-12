@@ -53,7 +53,7 @@ class Photo(core_models.TimeStampedModel):
     """ Photo Model Definition """
 
     caption = models.CharField(max_length=80)
-    file = models.ImageField()
+    file = models.ImageField(upload_to="car_photos")
     car = models.ForeignKey("Car", on_delete=models.CASCADE)
 
     def __str__(self):
@@ -72,14 +72,27 @@ class Car(core_models.TimeStampedModel):
     car_model = models.CharField(max_length=140)
     seats = models.IntegerField()
     efficiency = models.IntegerField()
-    check_in = models.TimeField()
-    check_out = models.TimeField()
+    check_in = models.DateField()
+    check_out = models.DateField()
     instant_book = models.BooleanField(default=True)
-    host = models.ForeignKey("users.User", on_delete=models.CASCADE)
-    car_type = models.ForeignKey("CarType", on_delete=models.SET_NULL, null=True)
-    fuel_type = models.ForeignKey("FuelType", on_delete=models.SET_NULL, null=True)
-    car_rules = models.ManyToManyField("CarRule", blank=True)
-    facility = models.ManyToManyField("Facility", blank=True)
+    host = models.ForeignKey(
+        "users.User", related_name="cars", on_delete=models.CASCADE
+    )
+    car_type = models.ForeignKey(
+        "CarType", on_delete=models.SET_NULL, related_name="cars", null=True, blank=True
+    )
+    fuel_type = models.ForeignKey(
+        "FuelType", on_delete=models.SET_NULL, related_name="cars", null=True, blank=True
+    )
+    car_rules = models.ManyToManyField("CarRule", related_name="cars", blank=True)
+    facility = models.ManyToManyField("Facility", related_name="cars", blank=True)
 
     def __str__(self):
         return self.name
+
+    def total_rating(self):
+        all_reviews = self.reviews.all()
+        all_rating = 0
+        for review in all_reviews:
+            all_rating += review.rating_average()
+        return all_rating / len(all_reviews)
