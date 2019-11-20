@@ -7,6 +7,7 @@ class PhotoInline(admin.TabularInline):
 
     model = models.Photo
 
+
 @admin.register(models.Car)
 class CarAdmin(admin.ModelAdmin):
 
@@ -25,6 +26,8 @@ class CarAdmin(admin.ModelAdmin):
                     "pickupAddress",
                     "car_model",
                     "efficiency",
+                    "car_type",
+                    "fuel_type",
                 )
             },
         ),
@@ -80,7 +83,7 @@ class PhotoAdmin(admin.ModelAdmin):
 
     """ Photo Admin Definition """
 
-    list_display = ("__str__" , "get_thumbnail")
+    list_display = ("__str__", "get_thumbnail")
 
     def get_thumbnail(self, obj):
         return mark_safe(f'<img width="50px" src="{obj.file.url}" />')

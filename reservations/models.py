@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from core import models as core_models
 
+
 class Reservation(core_models.TimeStampedModel):
 
     """ Reservation Model Definition """
@@ -26,11 +27,11 @@ class Reservation(core_models.TimeStampedModel):
     car = models.ForeignKey("products.Car", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.car}-{self.check_in}'
+        return f"{self.car}-{self.check_in}"
 
     def in_progress(self):
         now = timezone.now().date()
-        return now > self.check_in and now < self.check_out
+        return now >= self.check_in and now <= self.check_out
 
     in_progress.boolean = True
 

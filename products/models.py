@@ -82,7 +82,11 @@ class Car(core_models.TimeStampedModel):
         "CarType", on_delete=models.SET_NULL, related_name="cars", null=True, blank=True
     )
     fuel_type = models.ForeignKey(
-        "FuelType", on_delete=models.SET_NULL, related_name="cars", null=True, blank=True
+        "FuelType",
+        on_delete=models.SET_NULL,
+        related_name="cars",
+        null=True,
+        blank=True,
     )
     car_rules = models.ManyToManyField("CarRule", related_name="cars", blank=True)
     facility = models.ManyToManyField("Facility", related_name="cars", blank=True)
@@ -93,6 +97,8 @@ class Car(core_models.TimeStampedModel):
     def total_rating(self):
         all_reviews = self.reviews.all()
         all_rating = 0
-        for review in all_reviews:
-            all_rating += review.rating_average()
-        return all_rating / len(all_reviews)
+        if len(all_reviews) > 0:
+            for review in all_reviews:
+                all_rating += review.rating_average()
+            return all_rating / len(all_reviews)
+        return 0
