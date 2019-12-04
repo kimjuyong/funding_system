@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block page_title %}
+    {{car.name}}
+{% endblock page_title %}    
+
+{% block content %}
+
+    <div>
+        <h1>{{car.name}}</h1>
+        <h3>{{car.description}}</h3>
+    </div>
+    <div>
+        <h2>
+            By: {{car.host.username}}
+        </h2>
+        <h3>Facilities</h3>
+        <ul>
+            {% for f in car.facility.all %}
+                <li>{{f}}</li>      
+            {% endfor %}
+        </ul>
+        <h3>Car Rules</h3>
+        <ul>
+            {% for r in car.car_rules.all %}
+                <li>{{r}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
