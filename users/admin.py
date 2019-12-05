@@ -19,6 +19,8 @@ class CustomUserAdmin(UserAdmin):
                     "birthdate",
                     "language",
                     "currency",
+                    "email_verified",
+                    "email_secret",
                 )
             },
         ),
