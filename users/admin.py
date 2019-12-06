@@ -21,7 +21,23 @@ class CustomUserAdmin(UserAdmin):
                     "currency",
                     "email_verified",
                     "email_secret",
+                    "login_method",
                 )
             },
         ),
+    )
+
+    list_filter = UserAdmin.list_filter
+
+    list_display = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "is_active",
+        "language",
+        "currency",
+        "email_verified",
+        "email_secret",
+        "login_method",
     )
